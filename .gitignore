@@ -11,5 +11,3 @@ Cargo.lock
 
 # Flamegraph profiles
 flamegraph.svg
-
-snowpack-app/node_modules/*

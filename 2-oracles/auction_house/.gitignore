@@ -2,3 +2,5 @@
 build
 node_modules
 **/target/*
+snowpack-app/node_modules/*
+snowpack-app/package-lock.json
