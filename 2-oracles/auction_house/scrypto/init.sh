@@ -10,7 +10,15 @@ export owner_private_key=$(echo $owner_account | grep "Private key:" | cut -d: -
 export package=$(resim publish auction/target/wasm32-unknown-unknown/release/auction.wasm | grep "New Package" | cut -d: -f2 | xargs)
 export xrd=$(resim show $owner | grep XRD | cut -d: -f3 | cut -d, -f1 | xargs)
 
-export auction=$(resim call-function $package Auction new 1.0 10.0 1,$xrd | grep "Component:" | cut -d: -f2 | xargs)
+cat <<EOT > create_action.manifest
+CALL_METHOD ComponentAddress("$owner") "withdraw_by_amount" Decimal("1") ResourceAddress("$xrd");
+TAKE_FROM_WORKTOP_BY_AMOUNT Decimal("1") ResourceAddress("$xrd") Bucket("auction_bucket");
+
+CALL_FUNCTION PackageAddress("$package") "Auction" "new" Decimal("1") Decimal("10") Bucket("auction_bucket");
+CALL_METHOD_WITH_ALL_RESOURCES ComponentAddress("$owner") "deposit_batch";
+EOT
+
+export auction=$(resim run create_action.manifest | grep "Component:" | cut -d: -f2 | xargs)
 
 export owner_badge=$(resim show $owner | grep "Owner of" | cut -d: -f3 | cut -d, -f1 | xargs)
 
