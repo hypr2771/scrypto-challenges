@@ -28,6 +28,8 @@ blueprint! {
     impl Auction {
         pub fn new(minimal_bid: Decimal, bin_price: Decimal, product: Bucket) -> (ComponentAddress, Bucket) {
 
+            assert!(bin_price > minimal_bid, "BIN price has to be higher than minimal bid.")
+
             // Auction relative
             let id = Runtime::generate_uuid();
             let product: Vault = Vault::with_bucket(product);
