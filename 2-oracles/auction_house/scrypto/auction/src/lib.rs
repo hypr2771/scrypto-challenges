@@ -28,7 +28,7 @@ blueprint! {
     impl Auction {
         pub fn new(minimal_bid: Decimal, bin_price: Decimal, product: Bucket) -> (ComponentAddress, Bucket) {
 
-            assert!(bin_price > minimal_bid, "BIN price has to be higher than minimal bid.")
+            assert!(bin_price > minimal_bid, "BIN price has to be higher than minimal bid.");
 
             // Auction relative
             let id = Runtime::generate_uuid();
@@ -86,11 +86,11 @@ blueprint! {
             badge
         }
 
-        pub fn bid(&mut self, amount: Bucket, participant_badge: Proof) -> (Bucket, Bucket) {
+        pub fn bid(&mut self, amount: Bucket, participant_bucket: Proof) -> (Bucket, Bucket) {
             assert!(self.bin_price > self.current_bid, "Auction has ended, BIN price was reached.");
             assert!(!self.ended, "Auction has ended.");
 
-            let id = participant_badge.non_fungible::<ParticipantData>().id();
+            let id = participant_bucket.non_fungible::<ParticipantData>().id();
 
             assert!(self.bids.contains_key(&id), "You need to register to participate auction first.");
 
@@ -135,21 +135,21 @@ blueprint! {
             self.bids.get_mut(&id).unwrap().take_all()
         }
 
-        pub fn unregister(&mut self, participant_bucket: Bucket) {
+        pub fn unregister(&mut self, participant_bucket: Bucket) -> Bucket {
             assert!(self.ended, "Auction has not yet ended, you can not unregister.");
 
             let id = participant_bucket.non_fungible::<ParticipantData>().id();
 
             assert!(self.bids.contains_key(&id), "You are not registered to the auction, you do not need to unregister.");
 
-            let already_bidded = self.bids[&id].amount();
-
-            assert!(already_bidded == dec!("0"), "You still hold some funds, you need to withdraw first.");
+            let rest = self.bids.get_mut(&id).unwrap().take_all();
 
             self.participant_minter.authorize(|| {
                 let participant_nft_manager: &ResourceManager = borrow_resource_manager!(self.participant_nft_address);
                 participant_nft_manager.burn(participant_bucket)
-            })
+            });
+
+            rest
         }
     }
 }
