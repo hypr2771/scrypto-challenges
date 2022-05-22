@@ -6,7 +6,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Your page title here :)</title>
+  <title>Auction radix</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -36,15 +36,58 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <h1 style="margin-left: 45%">Auction</h1>
+  <h1 style="margin-left: 43%">Auction</h1> 
 
   <main class="container demo-container">
+    <button id="publish_contract" class="button">Publish contract</button>
     <br>
-    <button class="button open-modal">Launch modal window</button>
+    <button class="button open-modal">Create new auction</button>
   </main>
 
+  <div class="section values" style="margin-top: 5%;">
+    <div class="container">
+      <div class="row">
+        
+        <div class="one-third column value">
+          <h2 class="value-multiplier">19000 $XRD</h2>
+          <h5 class="value-heading">Renault 5</h5>
+          <p class="value-description">ID : 23456768846754563436</p>
+          <input value="price"> <button> BID </button>
+        </div>
 
-  <div class="modal modal-open">
+        <div class="one-third column value">
+          <h2 class="value-multiplier">19000 $XRD</h2>
+          <h5 class="value-heading">Renault 5</h5>
+          <p class="value-description">ID : 23456768846754563436</p>
+          <input value="price"> <button> BID </button>
+        </div>
+
+        <div class="one-third column value">
+          <h2 class="value-multiplier">19000 $XRD</h2>
+          <h5 class="value-heading">Renault 5</h5>
+          <p class="value-description">ID : 23456768846754563436</p>
+          <input value="price"> <button> BID </button>
+        </div>
+
+        <div class="one-third column value">
+          <h2 class="value-multiplier">19000 $XRD</h2>
+          <h5 class="value-heading">Renault 5</h5>
+          <p class="value-description">ID : 23456768846754563436</p>
+          <input value="price"> <button> BID </button>
+        </div>
+
+        <div class="one-third column value">
+          <h2 class="value-multiplier">19000 $XRD</h2>
+          <h5 class="value-heading">Renault 5</h5>
+          <p class="value-description">ID : 23456768846754563436</p>
+          <input value="price"> <button> BID </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal">
     <div class="modal-inner">
       <div class="modal-content">
         <div class="modal-close-icon">
@@ -53,13 +96,13 @@
         <div class="modal-content-inner">
           <h4>Start an auction</h4>
           <div>
-            <span>Account Id : </span><input class="row" id="accountId">
-          </div>
-          <div> 
-            <span>Description : </span><input id="description">
+            <span>Account Id : </span><input class="row" id="accountId"> <button id="fetch_account_address" class="button button-primary">Fetch account address</button>
           </div>
           <div>
             <span>Starting price : </span><input id="startingPrice">
+          </div>
+          <div>
+            <span>Duration : </span><input id="duration">
           </div>
 
 
@@ -67,7 +110,7 @@
         <hr class="modal-buttons-seperator">
         <div class="modal-buttons">
           <button class="button close-modal">Cancel</button>
-          <button class="button button-primary close-modal">OK</button>
+          <button id="create_auction" class="button button-primary">OK</button>
         </div>
       </div>
     </div>
@@ -76,6 +119,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 
+<script type="module" src="/modal.js"></script>
 <script type="module" src="/index.js"></script>
 
 </html>

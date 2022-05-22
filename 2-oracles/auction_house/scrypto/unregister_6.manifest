@@ -1,0 +1,5 @@
+CALL_METHOD ComponentAddress("0260ff54e343207bb150def99c41e9a49288723df4c0fcfb1df2d5") "withdraw_by_ids" TreeSet<NonFungibleId>(NonFungibleId("")) ResourceAddress("0311926ff417c34f46e1518585fa4a8a2a2830eabad7612480c0c6");
+TAKE_FROM_WORKTOP_BY_IDS TreeSet<NonFungibleId>(NonFungibleId("")) ResourceAddress("0311926ff417c34f46e1518585fa4a8a2a2830eabad7612480c0c6") Bucket("participant_badge_bucket");
+
+CALL_METHOD ComponentAddress("02bfb0904ddb728e0384fe0253d96a8519e15f8c9195a2f2da7f25") "unregister" Bucket("participant_badge_bucket");
+CALL_METHOD_WITH_ALL_RESOURCES ComponentAddress("0260ff54e343207bb150def99c41e9a49288723df4c0fcfb1df2d5") "deposit_batch";

@@ -4,6 +4,8 @@
     "build": "snowpack build"
   },
   "dependencies": {
+    "pte-browser-extension-sdk": "^0.1.21",
+    "pte-sdk": "^0.1.21"
   },
   "devDependencies": {
     "snowpack": "^3.3.7"
