@@ -75,18 +75,21 @@ blueprint! {
             (component.add_access_check(access_rules).globalize(), owner_badge)
         }
 
-        pub fn register(&mut self) -> Bucket {
+        pub fn register(&mut self) -> (Bucket, String, String) {
             let badge = self.participant_minter.authorize(|| {
                 let participant_nft_manager: &ResourceManager = borrow_resource_manager!(self.participant_nft_address);
                 participant_nft_manager.mint_non_fungible(&NonFungibleId::random(), ParticipantData{id: Runtime::generate_uuid()})
             });
 
+            let badge_address = badge.resource_address().to_string();
+            let badge_id = badge.non_fungible::<ParticipantData>().id().to_string();
+
             self.bids.insert(badge.non_fungible::<ParticipantData>().id(), Vault::new(RADIX_TOKEN));
 
-            badge
+            (badge, badge_address, badge_id)
         }
 
-        pub fn bid(&mut self, amount: Bucket, participant_badge: Proof) -> (Bucket, Bucket) {
+        pub fn bid(&mut self, amount: Bucket, participant_badge: Proof) -> (Bucket, Bucket, Decimal) {
             assert!(self.bin_price > self.current_bid, "Auction has ended, BIN price was reached.");
             assert!(!self.ended, "Auction has ended.");
 
@@ -109,14 +112,14 @@ blueprint! {
                 self.gathered.put(self.bids.get_mut(&id).unwrap().take_all());
                 self.gathered.put(amount);
 
-                return (left_overs, self.product.take_all())
+                return (left_overs, self.product.take_all(), total_bid)
             }
 
             self.current_bid = total_bid;
 
             self.bids.get_mut(&id).unwrap().put(amount);
 
-            (self.bids.get_mut(&id).unwrap().take(0), self.product.take(0))
+            (self.bids.get_mut(&id).unwrap().take(0), self.product.take(0), total_bid)
         }
 
         pub fn withdraw(&mut self) -> Bucket {
