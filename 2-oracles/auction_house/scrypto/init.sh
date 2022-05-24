@@ -159,3 +159,7 @@ echo "==================="
 resim set-default-account $owner $owner_private_key
 
 resim run manifests/withdraw.manifest
+
+echo "Auction outbidded user has $(resim show $participant_3 | grep $xrd | grep Radix | cut -d, -f1 | cut -d: -f2 | xargs) XRD"
+echo "Auction winner has $(resim show $participant_6 | grep $xrd | grep Radix | cut -d, -f1 | cut -d: -f2 | xargs) XRD"
+echo "Owner has $(resim show $owner | grep $xrd | grep Radix | cut -d, -f1 | cut -d: -f2 | xargs) XRD"

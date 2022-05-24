@@ -86,11 +86,11 @@ blueprint! {
             badge
         }
 
-        pub fn bid(&mut self, amount: Bucket, participant_bucket: Proof) -> (Bucket, Bucket) {
+        pub fn bid(&mut self, amount: Bucket, participant_badge: Proof) -> (Bucket, Bucket) {
             assert!(self.bin_price > self.current_bid, "Auction has ended, BIN price was reached.");
             assert!(!self.ended, "Auction has ended.");
 
-            let id = participant_bucket.non_fungible::<ParticipantData>().id();
+            let id = participant_badge.non_fungible::<ParticipantData>().id();
 
             assert!(self.bids.contains_key(&id), "You need to register to participate auction first.");
 
